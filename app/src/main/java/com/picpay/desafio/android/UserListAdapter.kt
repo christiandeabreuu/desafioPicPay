@@ -9,17 +9,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.User
+import com.picpay.desafio.android.databinding.ListItemUserBinding
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.list_item_user.view.*
 
 class UserListAdapter :
     ListAdapter<User, UserListAdapter.UserViewHolder>(UserDiffCallback()) {
 
+
     // Criação do ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_user, parent, false)
+        val view = ListItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return UserViewHolder(view)
     }
 
@@ -29,24 +29,24 @@ class UserListAdapter :
     }
 
     // ViewHolder como classe interna
-    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class UserViewHolder(val binding: ListItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             // Vincula os dados do usuário à interface
-            itemView.name.text = user.name
-            itemView.username.text = user.username
-            itemView.progressBar.visibility = View.VISIBLE
+            binding.name.text = user.name
+            binding.username.text = user.username
+            binding.progressBar.visibility = View.VISIBLE
 
             // Carregamento da imagem com Picasso
             Picasso.get()
                 .load(user.img)
                 .error(R.drawable.ic_round_account_circle)
-                .into(itemView.picture, object : Callback {
+                .into(binding.picture, object : Callback {
                     override fun onSuccess() {
-                        itemView.progressBar.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                     }
 
                     override fun onError(e: Exception?) {
-                        itemView.progressBar.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(itemView.context, "Erro ao carregar imagem", Toast.LENGTH_SHORT).show()
                     }
                 })

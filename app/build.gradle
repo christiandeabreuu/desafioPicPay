@@ -2,18 +2,20 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
+apply plugin:'kotlin-parcelize'
 
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    namespace "com.picpay.desafio.android"
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.picpay.desafio.android"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+
 
         vectorDrawables.useSupportLibrary = true
 
@@ -30,12 +32,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    android {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -44,7 +53,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.core:core-ktx:1.10.0"
+
 
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
@@ -76,4 +86,9 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test:core-ktx:$core_ktx_test_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+
+    // Lifecycle (inclui LifecycleScope)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 }

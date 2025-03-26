@@ -1,6 +1,5 @@
 package com.picpay.desafio.android
 
-import MainViewModelFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.picpay.desafio.android.presentation.MainViewModelFactory
 import com.picpay.desafio.android.ui.UserListAdapter
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: View
     private lateinit var adapter: UserListAdapter
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(UserRepository(Retrofit.service)) }
+    private val userRepository = UserRepositoryImpl(Retrofit.service)
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(GetUsersUseCase(userRepository)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

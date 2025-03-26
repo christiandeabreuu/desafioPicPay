@@ -1,12 +1,10 @@
 package com.picpay.desafio.android
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
+class MainViewModel(private val getUsersUseCase: GetUsersUseCase) : ViewModel() {
 
     private val _userList = MutableLiveData<List<User>>()
     val userList: LiveData<List<User>> = _userList
@@ -17,7 +15,7 @@ class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun fetchUsers() {
         viewModelScope.launch {
             try {
-                val users = userRepository.getUsers()
+                val users = getUsersUseCase() 
                 _userList.postValue(users)
             } catch (e: Exception) {
                 _errorMessage.postValue(e.message ?: "Erro desconhecido")

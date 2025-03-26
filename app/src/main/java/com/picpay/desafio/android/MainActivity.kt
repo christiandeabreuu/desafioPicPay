@@ -8,21 +8,22 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.picpay.desafio.android.presentation.MainViewModelFactory
 import com.picpay.desafio.android.ui.UserListAdapter
-
+import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: View
-    private lateinit var adapter: UserListAdapter
-    private val userRepository = UserRepositoryImpl(Retrofit.service)
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(GetUsersUseCase(userRepository)) }
+        private lateinit var recyclerView: RecyclerView
+        private lateinit var progressBar: View
+        private lateinit var adapter: UserListAdapter
+
+    // Injete o ViewModel usando o Koin
+    private val viewModel: MainViewModel by lazy {
+        MainViewModel(get())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.user_list_progress_bar)

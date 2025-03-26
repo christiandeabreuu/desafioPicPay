@@ -11,8 +11,7 @@ import coil.load
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.User
 import com.picpay.desafio.android.databinding.ListItemUserBinding
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
+
 
 class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(UserDiffCallback()) {
 

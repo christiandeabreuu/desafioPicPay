@@ -17,9 +17,14 @@ class MainViewModel(private val getUsersUseCase: GetUsersUseCase) : ViewModel() 
 
     fun fetchUsers() {
         viewModelScope.launch {
-            getUsersUseCase().flowOn(Dispatchers.IO).onStart {
+            getUsersUseCase()
+                .onStart {
+                    // Define o estado como carregando antes de iniciar o fluxo
                     _state.postValue(UsersState(isLoading = true, isError = false))
-                }.catch { e ->
+                }
+                .flowOn(Dispatchers.IO) // Certifica que o fluxo acontece em IO
+                .catch { e ->
+                    // Atualiza o estado com o erro, mantendo o carregamento como falso
                     _state.postValue(
                         UsersState(
                             errorMessage = e.message ?: "Erro desconhecido",
@@ -27,7 +32,9 @@ class MainViewModel(private val getUsersUseCase: GetUsersUseCase) : ViewModel() 
                             isError = true
                         )
                     )
-                }.collect { users ->
+                }
+                .collect { users ->
+                    // Atualiza o estado para parar o carregamento após obter os usuários
                     _state.postValue(UsersState(users = users, isLoading = false, isError = false))
                 }
         }

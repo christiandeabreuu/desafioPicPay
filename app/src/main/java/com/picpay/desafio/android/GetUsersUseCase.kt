@@ -1,8 +1,13 @@
 package com.picpay.desafio.android
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
 
 class GetUsersUseCase(private val userRepository: UserRepository) {
-    suspend operator fun invoke(): List<User> {
-        return userRepository.getUsers()
+     operator fun invoke(): Flow<List<User>> {
+        return flow {
+            emit(userRepository.getUsers())
+        }
     }
 }

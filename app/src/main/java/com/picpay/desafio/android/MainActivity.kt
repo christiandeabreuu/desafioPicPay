@@ -4,23 +4,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.ui.UserListAdapter
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-        private lateinit var recyclerView: RecyclerView
-        private lateinit var progressBar: View
-        private lateinit var adapter: UserListAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: View
+    private lateinit var adapter: UserListAdapter
 
-    // Injete o ViewModel usando o Koin
-    private val viewModel: MainViewModel by lazy {
-        MainViewModel(get())
-    }
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +33,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun setupObservers() {
-        viewModel.userList.observe(this,  { users ->
-            progressBar.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
-            adapter.submitList(users)
-        })
-
-        viewModel.errorMessage.observe(this,  { errorMessage ->
-            progressBar.visibility = View.GONE
-            if (errorMessage != null) {
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+        viewModel.state.observe(this, { state ->
+            progressBar.isVisible = state.isLoading
+            recyclerView.isVisible = !state.isLoading || !state.isError
+            adapter.submitList(state.users)
+            if (state.isError) {
+                Toast.makeText(this, state.errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
     }

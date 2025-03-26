@@ -17,5 +17,5 @@ val appModule = module {
     single { GetUsersUseCase(get()) }
 
     // Prover o ViewModel
-    factory { MainViewModel(get()) }
+    viewModel { MainViewModel(get()) }
 }

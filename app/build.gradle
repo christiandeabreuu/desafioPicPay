@@ -1,14 +1,12 @@
-apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin:'kotlin-parcelize'
-
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+}
 
 android {
     namespace "com.picpay.desafio.android"
-    compileSdkVersion 33
+    compileSdk 34
     defaultConfig {
         applicationId "com.picpay.desafio.android"
         minSdkVersion 21
@@ -97,15 +95,18 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test:core-ktx:$core_ktx_test_version"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
 
     // Lifecycle (inclui LifecycleScope)
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 
     //coil
     implementation "io.coil-kt:coil:2.3.0"
 
     // Koin
     implementation "io.insert-koin:koin-android:3.5.0"
+    implementation "io.insert-koin:koin-core-viewmodel:4.0.2"
+    implementation "io.insert-koin:koin-test:3.5.0"
+
 
 }

@@ -1,34 +1,66 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.picpay.desafio.android.R
+import com.picpay.desafio.android.User
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.list_item_user.view.*
 
-class UserListAdapter : RecyclerView.Adapter<UserListItemViewHolder>() {
+class UserListAdapter :
+    ListAdapter<User, UserListAdapter.UserViewHolder>(UserDiffCallback()) {
 
-    var users = emptyList<User>()
-        set(value) {
-            val result = DiffUtil.calculateDiff(
-                UserListDiffCallback(
-                    field,
-                    value
-                )
-            )
-            result.dispatchUpdatesTo(this)
-            field = value
-        }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListItemViewHolder {
+    // Criação do ViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_item_user, parent, false)
-
-        return UserListItemViewHolder(view)
+        return UserViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: UserListItemViewHolder, position: Int) {
-        holder.bind(users[position])
+    // Bind do ViewHolder com os dados
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int = users.size
+    // ViewHolder como classe interna
+    class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(user: User) {
+            // Vincula os dados do usuário à interface
+            itemView.name.text = user.name
+            itemView.username.text = user.username
+            itemView.progressBar.visibility = View.VISIBLE
+
+            // Carregamento da imagem com Picasso
+            Picasso.get()
+                .load(user.img)
+                .error(R.drawable.ic_round_account_circle)
+                .into(itemView.picture, object : Callback {
+                    override fun onSuccess() {
+                        itemView.progressBar.visibility = View.GONE
+                    }
+
+                    override fun onError(e: Exception?) {
+                        itemView.progressBar.visibility = View.GONE
+                        Toast.makeText(itemView.context, "Erro ao carregar imagem", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }
+    }
+
+    // Callback para calcular diferenças na lista
+    class UserDiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem.id == newItem.id // Comparação de IDs únicos
+        }
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem // Verifica se os itens são exatamente iguais
+        }
+    }
 }

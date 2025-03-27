@@ -18,11 +18,9 @@ class MainViewModel(private val getUsersUseCase: GetUsersUseCase) : ViewModel() 
     val state: LiveData<UsersState> = _state
 
     fun fetchUsers() {
+        _state.postValue(UsersState(isLoading = true, isError = false)) // Atualiza para isLoading=true imediatamente
         viewModelScope.launch {
             getUsersUseCase()
-                .onStart {
-                    _state.postValue(UsersState(isLoading = true, isError = false))
-                }
                 .flowOn(Dispatchers.IO)
                 .catch { e ->
                     _state.postValue(

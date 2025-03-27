@@ -1,4 +1,4 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.data.network
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,11 +18,8 @@ object Retrofit {
     }
 
     private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttp)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .build()
+        Retrofit.Builder().baseUrl(BASE_URL).client(okHttp)
+            .addConverterFactory(GsonConverterFactory.create(gson)).build()
     }
 
     val service: PicPayService by lazy {

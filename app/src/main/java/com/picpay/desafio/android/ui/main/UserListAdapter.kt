@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.ui
+package com.picpay.desafio.android.ui.main
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.picpay.desafio.android.R
-import com.picpay.desafio.android.User
+import com.picpay.desafio.android.data.model.User
 import com.picpay.desafio.android.databinding.ListItemUserBinding
 
 

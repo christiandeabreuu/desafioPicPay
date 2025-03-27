@@ -1,26 +1,22 @@
 package com.picpay.desafio.android.di
 
 import androidx.room.Room
-import com.picpay.desafio.android.GetUsersUseCase
-import com.picpay.desafio.android.MainViewModel
-import com.picpay.desafio.android.PicPayService
-import com.picpay.desafio.android.Retrofit
-import com.picpay.desafio.android.UserRepository
-import com.picpay.desafio.android.UserRepositoryImpl
-import com.picpay.desafio.android.data.AppDatabase
+import com.picpay.desafio.android.domain.GetUsersUseCase
+import com.picpay.desafio.android.ui.main.MainViewModel
+import com.picpay.desafio.android.data.network.PicPayService
+import com.picpay.desafio.android.data.repository.UserRepository
+import com.picpay.desafio.android.data.repository.UserRepositoryImpl
+import com.picpay.desafio.android.data.local.AppDatabase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.converter.gson.GsonConverterFactory
 
 
 val appModule = module {
-    // Registra o repositório
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
 
-    // Registra o UseCase
     single { GetUsersUseCase(get()) }
 
-    // Registra a ViewModel
     viewModel { MainViewModel(get()) }
 }
 

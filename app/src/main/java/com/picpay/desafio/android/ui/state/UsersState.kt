@@ -1,4 +1,6 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.ui.state
+
+import com.picpay.desafio.android.data.model.User
 
 data class UsersState(
     val users: List<User> = emptyList(),

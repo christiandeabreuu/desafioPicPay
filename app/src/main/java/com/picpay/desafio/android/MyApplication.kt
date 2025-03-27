@@ -15,9 +15,9 @@ class MyApplication : Application() {
         startKoin {
             androidContext(this@MyApplication)
             modules(
-                networkModule,  // Retrofit
-                databaseModule, // AppDatabase e UserDao
-                appModule       // MainViewModel, GetUsersUseCase e UserRepository
+                networkModule,
+                databaseModule,
+                appModule
             )
         }
     }

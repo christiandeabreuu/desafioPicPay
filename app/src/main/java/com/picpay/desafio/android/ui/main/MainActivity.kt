@@ -1,4 +1,4 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.ui.main
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.picpay.desafio.android.ui.UserListAdapter
+import com.picpay.desafio.android.R
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -34,16 +34,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun setupObservers() {
         viewModel.state.observe(this) { state ->
-            // Exibe o ProgressBar enquanto está carregando
             progressBar.isVisible = state.isLoading
 
-            // Exibe a lista de usuários somente após carregar
             recyclerView.isVisible = state.users.isNotEmpty() && !state.isError
 
-            // Atualiza a lista de usuários
             adapter.submitList(state.users)
 
-            // Exibe mensagem de erro, se houver
             if (state.isError) {
                 Toast.makeText(this, state.errorMessage, Toast.LENGTH_SHORT).show()
             }

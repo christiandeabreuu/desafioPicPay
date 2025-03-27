@@ -1,4 +1,4 @@
-package com.picpay.desafio.android.data
+package com.picpay.desafio.android.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

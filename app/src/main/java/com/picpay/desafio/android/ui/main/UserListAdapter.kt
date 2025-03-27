@@ -31,6 +31,7 @@ class UserListAdapter : ListAdapter<User, UserListAdapter.UserViewHolder>(UserDi
             binding.progressBar.visibility = View.VISIBLE
 
             binding.picture.load(user.img) {
+                placeholder(R.drawable.ic_round_account_circle)
                 error(R.drawable.ic_round_account_circle)
                 listener(
                     onSuccess = { _, _ ->

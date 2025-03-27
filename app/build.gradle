@@ -95,7 +95,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.test:core-ktx:$core_ktx_test_version"
-
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
 
     // Lifecycle (inclui LifecycleScope)
@@ -103,6 +103,9 @@ dependencies {
 
     //coil
     implementation "io.coil-kt:coil:2.3.0"
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
 
     // Koin
     implementation "io.insert-koin:koin-android:3.5.0"
